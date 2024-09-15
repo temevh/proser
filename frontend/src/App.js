@@ -70,7 +70,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Demo for Proservanda</h1>
+        <h1 className="headerText">Demo for Proservanda</h1>
         <p>1. Choose file to upload</p>
         <input type="file" accept="image/png" onChange={handleFileChange} />
         <p>2. Start the image scan</p>
