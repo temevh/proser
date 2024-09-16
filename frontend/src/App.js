@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 
 function App() {
   const [paragraphs, setParagraphs] = useState([]);
@@ -122,7 +122,6 @@ function App() {
         <p className="subText">
           (Currently only supporting COAL forms in PNG format)
         </p>
-
         <input type="file" accept="image/png" onChange={handleFileChange} />
         <p>2. Start the image scan</p>
         <button onClick={handleButtonClick} disabled={!file || loading}>
