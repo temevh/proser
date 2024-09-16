@@ -25,6 +25,7 @@
 *.png
 *.jpeg
 *.pdf
+key_base64.txt
 
 
 npm-debug.log*

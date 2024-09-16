@@ -9,8 +9,8 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [processingSuccesfull, setProcessingSuccesfull] = useState(false);
 
-  const API_URL = "http://localhost:3001";
-  //const API_URL = process.env.REACT_APP_API_URL;
+  //const API_URL = "http://localhost:3001";
+  const API_URL = process.env.REACT_APP_API_URL;
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];

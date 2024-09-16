@@ -6,7 +6,6 @@ const { DocumentProcessorServiceClient } =
 
 const app = express();
 const port = 3001;
-const client = new DocumentProcessorServiceClient();
 
 const projectId = process.env.PROJECT_ID;
 const location = process.env.LOCATION;
@@ -15,19 +14,28 @@ const processorId = process.env.PROCESSOR_ID;
 app.use(cors());
 app.use(express.json({ limit: "100mb" }));
 
+const fs = require("fs");
+const path = require("path");
+
+const base64Credentials = process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64;
+
+if (base64Credentials) {
+  const credentialsPath = path.join(__dirname, "gcloud-credentials.json");
+  fs.writeFileSync(credentialsPath, Buffer.from(base64Credentials, "base64"));
+  process.env.GOOGLE_APPLICATION_CREDENTIALS = credentialsPath;
+}
+
+const client = new DocumentProcessorServiceClient();
 app.get("/", (req, res) => {
   res.send("OK");
 });
 
 app.post("/process-document", async (req, res) => {
   const { imageData } = req.body;
-  console.log("imagedata", imageData);
 
   try {
     console.log("Starting the process");
     const name = `projects/${projectId}/locations/${location}/processors/${processorId}`;
-
-    //const encodedImage = Buffer.from(imageData).toString("base64");
 
     const request = {
       name,
@@ -36,16 +44,14 @@ app.post("/process-document", async (req, res) => {
         mimeType: "image/png",
       },
     };
-    console.log("request", request);
-
     const [result] = await client.processDocument(request);
+
     const { document } = result;
 
     const getText = (textAnchor) => {
       if (!textAnchor.textSegments || textAnchor.textSegments.length === 0) {
         return "";
       }
-
       const startIndex = textAnchor.textSegments[0].startIndex || 0;
       const endIndex = textAnchor.textSegments[0].endIndex;
 
