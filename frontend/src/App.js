@@ -75,6 +75,9 @@ function App() {
       <header className="App-header">
         <h1 className="headerText">Demo for Proservanda</h1>
         <p>1. Choose file to upload</p>
+        <p className="subText">
+          (Currently only supporting COAL forms in PNG format)
+        </p>
         <input type="file" accept="image/png" onChange={handleFileChange} />
         <p>2. Start the image scan</p>
         <button onClick={handleButtonClick} disabled={!file || loading}>
@@ -84,7 +87,7 @@ function App() {
         {processingSuccesfull ? (
           <div>
             <h3>File processed succesfully!</h3>
-            <button onClick={handleExportClick}>{"Export file"}</button>
+            <button onClick={handleExportClick}>{"Export file as XLSX"}</button>
           </div>
         ) : null}
       </header>
