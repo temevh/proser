@@ -9,8 +9,8 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [processingSuccesfull, setProcessingSuccesfull] = useState(false);
 
-  //const API_URL = "http://localhost:3001";
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = "https://proservanda-5a6f43880615.herokuapp.com";
+  //const API_URL = process.env.REACT_APP_API_URL;
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -87,13 +87,6 @@ function App() {
             <button onClick={handleExportClick}>{"Export file"}</button>
           </div>
         ) : null}
-        {/*
-        <ul>
-          {paragraphs.map((paragraph, index) => (
-            <li key={index}>{paragraph}</li>
-          ))}
-        </ul>
-            */}
       </header>
     </div>
   );
