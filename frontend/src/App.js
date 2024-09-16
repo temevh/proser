@@ -2,15 +2,30 @@ import "./App.css";
 import { useState } from "react";
 import { write, utils } from "xlsx";
 import { saveAs } from "file-saver";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 function App() {
   const [paragraphs, setParagraphs] = useState([]);
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [processingSuccesfull, setProcessingSuccesfull] = useState(false);
+  const [filetype, setFiletype] = useState("PNG");
+  const [formType, setFormType] = useState("COAL");
 
   const API_URL = "https://proservanda-5a6f43880615.herokuapp.com";
   //const API_URL = process.env.REACT_APP_API_URL;
+
+  const handleFileTypeChange = (event) => {
+    setFiletype(event.target.value);
+  };
+
+  const handleFormTypeChange = (event) => {
+    setFormType(event.target.value);
+  };
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -75,9 +90,39 @@ function App() {
       <header className="App-header">
         <h1 className="headerText">Demo for Proservanda</h1>
         <p>1. Choose file to upload</p>
+
+        <Box sx={{ minWidth: 200, display: "flex", gap: 5 }}>
+          <FormControl>
+            <InputLabel sx={{ color: "white" }}>File type</InputLabel>
+            <Select
+              value={filetype}
+              label="File type"
+              onChange={handleFileTypeChange}
+              sx={{ color: "white" }}
+            >
+              <MenuItem value={"PNG"}>PNG</MenuItem>
+              <MenuItem value={"PDF"}>PDF</MenuItem>
+              <MenuItem value={"JPEG"}>JPEG</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl>
+            <InputLabel sx={{ color: "white" }}>Form type</InputLabel>
+            <Select
+              value={formType}
+              label="File type"
+              onChange={handleFormTypeChange}
+              sx={{ color: "white" }}
+            >
+              <MenuItem value={"COAL"}>COAL</MenuItem>
+              <MenuItem value={"DOC"}>DOC</MenuItem>
+              <MenuItem value={"HYS"}>HYS</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
         <p className="subText">
           (Currently only supporting COAL forms in PNG format)
         </p>
+
         <input type="file" accept="image/png" onChange={handleFileChange} />
         <p>2. Start the image scan</p>
         <button onClick={handleButtonClick} disabled={!file || loading}>
