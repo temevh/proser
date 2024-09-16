@@ -9,7 +9,8 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [processingSuccesfull, setProcessingSuccesfull] = useState(false);
 
-  const serverUrl = "http://localhost:3001/process-document";
+  const API_URL = "http://localhost:3001";
+  //const API_URL = process.env.REACT_APP_API_URL;
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -25,15 +26,17 @@ function App() {
       const reader = new FileReader();
 
       reader.onloadend = async () => {
-        const imagedata = reader.result.split(",")[1];
+        const imageData = reader.result.split(",")[1];
+
+        console.log(imageData);
         try {
-          const response = await fetch(serverUrl, {
+          const response = await fetch(`${API_URL}/process-document`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              imagedata,
+              imageData,
             }),
           });
 

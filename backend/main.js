@@ -12,19 +12,15 @@ const projectId = process.env.PROJECT_ID;
 const location = process.env.LOCATION;
 const processorId = process.env.PROCESSOR_ID;
 
-const filePath = "coalSample.png";
-const fs = require("fs").promises;
-
 app.use(cors());
 app.use(express.json({ limit: "100mb" }));
 
+app.get("/", (req, res) => {
+  res.send("OK");
+});
+
 app.post("/process-document", async (req, res) => {
-  //const { imageData } = req.body;
-  const imageData = await fs.readFile(filePath);
-
-  const encodedImage = Buffer.from(imageData).toString("base64");
-
-  console.log("starting the process");
+  const { imageData } = req.body;
   console.log("imagedata", imageData);
 
   try {
@@ -36,7 +32,7 @@ app.post("/process-document", async (req, res) => {
     const request = {
       name,
       rawDocument: {
-        content: encodedImage,
+        content: imageData,
         mimeType: "image/png",
       },
     };
@@ -75,6 +71,6 @@ app.post("/process-document", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
