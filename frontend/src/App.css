@@ -20,13 +20,35 @@
 }
 
 .subText {
-  color: gray;
+  color: whitesmoke;
   font-size: small;
   font-style: italic;
 }
 
 .App-link {
   color: #61dafb;
+}
+
+.processButton {
+  height: 50px;
+  width: 180px;
+  font-size: large;
+}
+
+.resetButton {
+  margin-top: 50px;
+}
+
+.fileText {
+  font-size: 16px;
+  margin-top: 0px;
+  font-weight: bold;
+  padding-left: 4px;
+}
+
+.fileHeaderText {
+  font-size: 16px;
+  margin-top: 0px;
 }
 
 @keyframes App-logo-spin {

@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { write, utils } from "xlsx";
 import { saveAs } from "file-saver";
 import Box from "@mui/material/Box";
@@ -15,6 +15,8 @@ function App() {
   const [processingSuccesfull, setProcessingSuccesfull] = useState(false);
   const [filetype, setFiletype] = useState("PNG");
   const [formType, setFormType] = useState("COAL");
+
+  const fileInputRef = useRef(null);
 
   const API_URL = "https://proservanda-5a6f43880615.herokuapp.com";
   //const API_URL = process.env.REACT_APP_API_URL;
@@ -85,6 +87,22 @@ function App() {
     saveAs(data, "coalData.xlsx");
   };
 
+  const fieldResetClick = () => {
+    setFile(null);
+    setParagraphs([]);
+    setFiletype("PNG");
+    setFormType("COAL");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const handleCustomFileInputClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -99,6 +117,7 @@ function App() {
               label="File type"
               onChange={handleFormTypeChange}
               sx={{ color: "white" }}
+              disabled={loading}
             >
               <MenuItem value={"COAL"}>COAL</MenuItem>
               <MenuItem value={"DOC"}>DOC</MenuItem>
@@ -112,6 +131,7 @@ function App() {
               label="File type"
               onChange={handleFileTypeChange}
               sx={{ color: "white" }}
+              disabled={loading}
             >
               <MenuItem value={"PNG"}>PNG</MenuItem>
               <MenuItem value={"PDF"}>PDF</MenuItem>
@@ -122,10 +142,28 @@ function App() {
         <p className="subText">
           (Currently only supporting COAL forms in PNG format)
         </p>
-        <input type="file" accept="image/png" onChange={handleFileChange} />
+        <input
+          type="file"
+          accept="image/png"
+          onChange={handleFileChange}
+          disabled={loading}
+          ref={fileInputRef}
+          style={{ display: "none" }}
+        />
+        <button onClick={handleCustomFileInputClick} disabled={loading}>
+          Choose File
+        </button>
+        <Box sx={{ display: "flex" }}>
+          <p className="fileHeaderText">Selected file:</p>
+          <p className="fileText">{file ? file.name : "No file chosen"}</p>
+        </Box>
         <p>2. Start the image scan</p>
-        <button onClick={handleButtonClick} disabled={!file || loading}>
-          {"Start Processing"}
+        <button
+          onClick={handleButtonClick}
+          disabled={!file || loading}
+          className="processButton"
+        >
+          {"Start processing"}
         </button>
         {loading ? <p>Processing...</p> : null}
         {processingSuccesfull ? (
@@ -134,6 +172,13 @@ function App() {
             <button onClick={handleExportClick}>{"Export file as XLSX"}</button>
           </div>
         ) : null}
+        <button
+          onClick={fieldResetClick}
+          disabled={loading}
+          className="resetButton"
+        >
+          {"RESET ALL FIELDS"}
+        </button>
       </header>
     </div>
   );
