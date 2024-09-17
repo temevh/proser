@@ -93,19 +93,6 @@ function App() {
 
         <Box sx={{ minWidth: 200, display: "flex", gap: 5 }}>
           <FormControl>
-            <InputLabel sx={{ color: "white" }}>File type</InputLabel>
-            <Select
-              value={filetype}
-              label="File type"
-              onChange={handleFileTypeChange}
-              sx={{ color: "white" }}
-            >
-              <MenuItem value={"PNG"}>PNG</MenuItem>
-              <MenuItem value={"PDF"}>PDF</MenuItem>
-              <MenuItem value={"JPEG"}>JPEG</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl>
             <InputLabel sx={{ color: "white" }}>Form type</InputLabel>
             <Select
               value={formType}
@@ -116,6 +103,19 @@ function App() {
               <MenuItem value={"COAL"}>COAL</MenuItem>
               <MenuItem value={"DOC"}>DOC</MenuItem>
               <MenuItem value={"HYS"}>HYS</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl>
+            <InputLabel sx={{ color: "white" }}>File type</InputLabel>
+            <Select
+              value={filetype}
+              label="File type"
+              onChange={handleFileTypeChange}
+              sx={{ color: "white" }}
+            >
+              <MenuItem value={"PNG"}>PNG</MenuItem>
+              <MenuItem value={"PDF"}>PDF</MenuItem>
+              <MenuItem value={"JPEG"}>JPEG</MenuItem>
             </Select>
           </FormControl>
         </Box>
