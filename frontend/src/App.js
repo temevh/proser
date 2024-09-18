@@ -18,8 +18,9 @@ function App() {
 
   const fileInputRef = useRef(null);
 
-  const API_URL = "https://proservanda-5a6f43880615.herokuapp.com";
-  //const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = process.env.REACT_APP_API_URL;
+
+  const relevantFields = [""];
 
   const handleFileTypeChange = (event) => {
     setFiletype(event.target.value);
@@ -106,17 +107,17 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1 className="headerText">Demo for Proservanda</h1>
-        <p>1. Choose file to upload</p>
+        <h1 className="headerText">Demo incapacidades proservanda</h1>
+        <p>1. Elige un archivo para procesar</p>
 
         <Box sx={{ minWidth: 200, display: "flex", gap: 5 }}>
           <FormControl>
-            <InputLabel sx={{ color: "white" }}>Form type</InputLabel>
+            <InputLabel sx={{ color: "white" }}>Proveedor de salud</InputLabel>
             <Select
               value={formType}
               label="File type"
               onChange={handleFormTypeChange}
-              sx={{ color: "white" }}
+              sx={{ color: "white", width: "140px" }}
               disabled={loading}
             >
               <MenuItem value={"COAL"}>COAL</MenuItem>
@@ -125,12 +126,12 @@ function App() {
             </Select>
           </FormControl>
           <FormControl>
-            <InputLabel sx={{ color: "white" }}>File type</InputLabel>
+            <InputLabel sx={{ color: "white" }}>Tipo de archivo</InputLabel>
             <Select
               value={filetype}
               label="File type"
               onChange={handleFileTypeChange}
-              sx={{ color: "white" }}
+              sx={{ color: "white", width: "120px" }}
               disabled={loading}
             >
               <MenuItem value={"PNG"}>PNG</MenuItem>
@@ -140,7 +141,7 @@ function App() {
           </FormControl>
         </Box>
         <p className="subText">
-          (Currently only supporting COAL forms in PNG format)
+          (Por el momento sólo se procesan incapacidades de COAL en formato PNG)
         </p>
         <input
           type="file"
@@ -151,25 +152,25 @@ function App() {
           style={{ display: "none" }}
         />
         <button onClick={handleCustomFileInputClick} disabled={loading}>
-          Choose File
+          Elige un archivo
         </button>
         <Box sx={{ display: "flex" }}>
           <p className="fileHeaderText">Selected file:</p>
           <p className="fileText">{file ? file.name : "No file chosen"}</p>
         </Box>
-        <p>2. Start the image scan</p>
+        <p>2. Iniciar escaneo de incapacidad </p>
         <button
           onClick={handleButtonClick}
           disabled={!file || loading}
           className="processButton"
         >
-          {"Start processing"}
+          {"Iniciar "}
         </button>
-        {loading ? <p>Processing...</p> : null}
+        {loading ? <p>Procesando...</p> : null}
         {processingSuccesfull ? (
           <div>
-            <h3>File processed succesfully!</h3>
-            <button onClick={handleExportClick}>{"Export file as XLSX"}</button>
+            <h3>Incapacidad procesada!</h3>
+            <button onClick={handleExportClick}>{"Exportar a XLSX"}</button>
           </div>
         ) : null}
         <button
@@ -177,7 +178,7 @@ function App() {
           disabled={loading}
           className="resetButton"
         >
-          {"RESET ALL FIELDS"}
+          {"LIMPIAS LOS CAMPOS"}
         </button>
       </header>
     </div>
