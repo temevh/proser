@@ -21,7 +21,8 @@ function App() {
 
   const fileInputRef = useRef(null);
 
-  const API_URL = process.env.REACT_APP_API_URL;
+  //const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = "https://proservanda-5a6f43880615.herokuapp.com";
 
   const relevantFields = ["Orden", "Nombre", "Tipo"];
 
