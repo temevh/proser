@@ -176,24 +176,22 @@ function App() {
           <p className="fileText">{file ? file.name : "No file chosen"}</p>
         </Box>
         <p>2. Iniciar escaneo de incapacidad </p>
-        <Box display={"flex"}>
-          <button
-            onClick={handleButtonClick}
-            disabled={!file || loading}
-            className="processButton"
-          >
-            {"Iniciar "}
-          </button>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={isRelevantFieldsChecked}
-                onChange={handleCheckboxChange}
-              />
-            }
-            label="Relevant fields"
-          />
-        </Box>
+        <button
+          onClick={handleButtonClick}
+          disabled={!file || loading}
+          className="processButton"
+        >
+          {"Iniciar "}
+        </button>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={isRelevantFieldsChecked}
+              onChange={handleCheckboxChange}
+            />
+          }
+          label="Sólo campos relevantes"
+        />
 
         {loading ? <p>Procesando...</p> : null}
         {processingSuccesfull ? (
