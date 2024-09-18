@@ -7,6 +7,8 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 function App() {
   const [paragraphs, setParagraphs] = useState([]);
@@ -15,12 +17,13 @@ function App() {
   const [processingSuccesfull, setProcessingSuccesfull] = useState(false);
   const [filetype, setFiletype] = useState("PNG");
   const [formType, setFormType] = useState("COAL");
+  const [isRelevantFieldsChecked, setIsRelevantFieldsChecked] = useState(true);
 
   const fileInputRef = useRef(null);
 
   const API_URL = process.env.REACT_APP_API_URL;
 
-  const relevantFields = [""];
+  const relevantFields = ["Orden", "Nombre", "Tipo"];
 
   const handleFileTypeChange = (event) => {
     setFiletype(event.target.value);
@@ -28,6 +31,10 @@ function App() {
 
   const handleFormTypeChange = (event) => {
     setFormType(event.target.value);
+  };
+
+  const handleCheckboxChange = (event) => {
+    setIsRelevantFieldsChecked(event.target.checked);
   };
 
   const handleFileChange = (event) => {
@@ -78,9 +85,17 @@ function App() {
   };
 
   const handleExportClick = () => {
+    const containsRelevantWord = (paragraph) => {
+      return relevantFields.some((word) => paragraph.includes(word));
+    };
+
+    const filteredParagraphs = isRelevantFieldsChecked
+      ? paragraphs.filter(containsRelevantWord)
+      : paragraphs;
+
     const workbook = utils.book_new();
     const worksheet = utils.json_to_sheet(
-      paragraphs.map((paragraph) => ({ Paragraph: paragraph }))
+      filteredParagraphs.map((paragraph) => ({ Paragraph: paragraph }))
     );
     utils.book_append_sheet(workbook, worksheet, "Paragraphs");
     const excelBuffer = write(workbook, { bookType: "xlsx", type: "array" });
@@ -93,6 +108,7 @@ function App() {
     setParagraphs([]);
     setFiletype("PNG");
     setFormType("COAL");
+    setIsRelevantFieldsChecked(true);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -159,13 +175,25 @@ function App() {
           <p className="fileText">{file ? file.name : "No file chosen"}</p>
         </Box>
         <p>2. Iniciar escaneo de incapacidad </p>
-        <button
-          onClick={handleButtonClick}
-          disabled={!file || loading}
-          className="processButton"
-        >
-          {"Iniciar "}
-        </button>
+        <Box display={"flex"}>
+          <button
+            onClick={handleButtonClick}
+            disabled={!file || loading}
+            className="processButton"
+          >
+            {"Iniciar "}
+          </button>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isRelevantFieldsChecked}
+                onChange={handleCheckboxChange}
+              />
+            }
+            label="Relevant fields"
+          />
+        </Box>
+
         {loading ? <p>Procesando...</p> : null}
         {processingSuccesfull ? (
           <div>
