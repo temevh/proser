@@ -23,6 +23,7 @@ function App() {
 
   //const API_URL = process.env.REACT_APP_API_URL;
   const API_URL = "https://proservanda-5a6f43880615.herokuapp.com";
+  //const API_URL = "http://localhost:3001";
 
   const relevantFields = ["Orden", "Nombre", "Tipo"];
 
@@ -54,7 +55,6 @@ function App() {
       reader.onloadend = async () => {
         const imageData = reader.result.split(",")[1];
 
-        console.log(imageData);
         try {
           const response = await fetch(`${API_URL}/process-document`, {
             method: "POST",
@@ -67,6 +67,7 @@ function App() {
           });
 
           const data = await response.json();
+          console.log("data", data);
           setParagraphs(data.paragraphs);
           setProcessingSuccesfull(true);
         } catch (error) {
