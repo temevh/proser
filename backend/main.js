@@ -43,10 +43,22 @@ app.post("/process-document", async (req, res) => {
         content: imageData,
         mimeType: "image/png",
       },
+      fieldMask: {
+        paths: [
+          "Apellidos",
+          "Cause_Externa",
+          "Genero",
+          "Nombers",
+          "Tipo_de_identificacion",
+        ],
+      },
     };
+
     const [result] = await client.processDocument(request);
+    console.log(result);
 
     const { document } = result;
+    console.log(document);
 
     const getText = (textAnchor) => {
       if (!textAnchor.textSegments || textAnchor.textSegments.length === 0) {
