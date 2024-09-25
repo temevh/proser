@@ -8,6 +8,7 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FileFormSelect from "./mainView/FileFormSelect";
 import FileSelection from "./mainView/FileSelection";
+import ProcessButton from "./mainView/ProcessButton";
 
 function App() {
   const [paragraphs, setParagraphs] = useState([]);
@@ -27,45 +28,6 @@ function App() {
 
   const handleCheckboxChange = (event) => {
     setIsRelevantFieldsChecked(event.target.checked);
-  };
-
-  const handleButtonClick = async () => {
-    if (file) {
-      setLoading(true);
-      const reader = new FileReader();
-
-      reader.onloadend = async () => {
-        const imageData = reader.result.split(",")[1];
-
-        try {
-          const response = await fetch(`${API_URL}/process-document`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              imageData,
-            }),
-          });
-
-          const data = await response.json();
-          console.log("data", data);
-          setParagraphs(data.paragraphs);
-          setProcessingSuccesfull(true);
-        } catch (error) {
-          console.error("Error:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      reader.onerror = (error) => {
-        console.error("FileReader Error:", error);
-        setLoading(false);
-      };
-
-      reader.readAsDataURL(file);
-    }
   };
 
   const handleExportClick = () => {
@@ -122,13 +84,7 @@ function App() {
           <p className="fileText">{file ? file.name : "No file chosen"}</p>
         </Box>
         <p>2. Iniciar escaneo de incapacidad </p>
-        <button
-          onClick={handleButtonClick}
-          disabled={!file || loading}
-          className="processButton"
-        >
-          {"Iniciar "}
-        </button>
+        <ProcessButton />
         <FormControlLabel
           control={
             <Checkbox
