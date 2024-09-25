@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FileFormSelect from "./mainView/FileFormSelect";
+import FileSelection from "./mainView/FileSelection";
 
 function App() {
   const [paragraphs, setParagraphs] = useState([]);
@@ -26,14 +27,6 @@ function App() {
 
   const handleCheckboxChange = (event) => {
     setIsRelevantFieldsChecked(event.target.checked);
-  };
-
-  const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
-    if (selectedFile) {
-      setFile(selectedFile);
-      console.log(selectedFile);
-    }
   };
 
   const handleButtonClick = async () => {
@@ -120,14 +113,7 @@ function App() {
         <p className="subText">
           (Por el momento sólo se procesan incapacidades de COAL en formato PNG)
         </p>
-        <input
-          type="file"
-          accept="image/png"
-          onChange={handleFileChange}
-          disabled={loading}
-          ref={fileInputRef}
-          style={{ display: "none" }}
-        />
+        <FileSelection />
         <button onClick={handleCustomFileInputClick} disabled={loading}>
           Elige un archivo
         </button>
