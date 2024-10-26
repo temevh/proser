@@ -1,1 +1,1 @@
-Utilizing Google cloud services (Document AI for now)
+A demo which uses react for the frontend where the user can upload a picture of a document. The document is then passed to a heroku backend which calls the google cloud Document AI and forwards the response after analyzing back to the user. 
